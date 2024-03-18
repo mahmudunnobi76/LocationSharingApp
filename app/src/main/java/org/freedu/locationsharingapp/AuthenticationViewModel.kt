@@ -2,6 +2,7 @@ package org.freedu.locationsharingapp
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class AuthenticationViewModel : ViewModel() {
 
@@ -33,5 +34,8 @@ class AuthenticationViewModel : ViewModel() {
     }
     fun isLoggedIn(): Boolean {
         return firebaseAuth.currentUser != null
+    }
+    fun getCurrentUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
     }
 }

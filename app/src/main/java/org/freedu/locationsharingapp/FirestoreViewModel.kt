@@ -75,4 +75,27 @@ class FirestoreViewModel : ViewModel() {
                 // Handle failure
             }
     }
+
+
+    fun getUser(userId: String, callback: (User?) -> Unit) {
+        usersCollection.document(userId).get()
+            .addOnSuccessListener { documentSnapshot ->
+                val user = documentSnapshot.toObject(User::class.java)
+                callback(user)
+            }
+            .addOnFailureListener { e ->
+                // Handle failure
+                callback(null)
+            }
+    }
+    fun getUserLocation(userId: String, callback: (String) -> Unit) {
+        usersCollection.document(userId).get()
+            .addOnSuccessListener { documentSnapshot ->
+                val location = documentSnapshot.getString("location") ?: ""
+                callback(location)
+            }
+            .addOnFailureListener { e ->
+                callback("")
+            }
+    }
 }

@@ -3,15 +3,21 @@ package org.freedu.locationsharingapp
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +27,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userAdapter: UserAdapter
     private lateinit var recyclerViewUsers: RecyclerView
     private lateinit var locationBtn: FloatingActionButton
+
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navview: NavigationView
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -37,6 +47,36 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        drawerLayout = findViewById(R.id.drawerLayout)
+        navview = findViewById(R.id.navview)
+        //assign drawerlayout to actionbardrawertoggole
+        actionBarDrawerToggle = ActionBarDrawerToggle(this,drawerLayout, R.string.nav_open, R.string.nav_close)
+
+        //add action listener
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //item click for open new fragment
+        navview.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.profile ->{
+                    startActivity(Intent(this@MainActivity, ProfileActivity::class.java))
+                    drawerLayout.closeDrawers()
+                }
+
+                R.id.logout ->{
+                    Firebase.auth.signOut()
+                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                    finish()
+                    drawerLayout.closeDrawers()
+                }
+
+            }
+            true
+        }
 
         locationBtn = findViewById(R.id.locationBtn)
 
@@ -90,5 +130,12 @@ class MainActivity : AppCompatActivity() {
                 firestoreViewModel.updateUserLocation(userId, location)
             }
         }
+    }
+    // drawer open close
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            true
+        }
+        else super.onOptionsItemSelected(item)
     }
 }

@@ -8,6 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
 
@@ -45,6 +47,13 @@ class LoginActivity : AppCompatActivity() {
         textViewRegister.setOnClickListener {
             // Navigate to registration screen
             startActivity(Intent(this, RegisterActivity::class.java))
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        if(Firebase.auth.currentUser!=null){
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            finish()
         }
     }
 }
