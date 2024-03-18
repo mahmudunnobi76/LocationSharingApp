@@ -1,5 +1,6 @@
 package org.freedu.locationsharingapp
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firestoreViewModel: FirestoreViewModel
     private lateinit var userAdapter: UserAdapter
     private lateinit var recyclerViewUsers: RecyclerView
+    private lateinit var locationBtn: FloatingActionButton
 
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -34,6 +37,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        locationBtn = findViewById(R.id.locationBtn)
+
+        locationBtn.setOnClickListener {
+            startActivity(Intent(this, MapsActivity::class.java))
+        }
+
         authViewModel = ViewModelProvider(this).get(AuthenticationViewModel::class.java)
         firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
 
