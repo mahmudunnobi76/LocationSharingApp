@@ -8,16 +8,33 @@
     tools:context=".RegisterActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/textInputLayout0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="124dp"
-        android:hint="Enter your email..."
+        android:hint="Enter your Name..."
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/displayNameEt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter your email..."
+        android:layout_marginTop="20dp"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout0"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout0"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout0">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEt"

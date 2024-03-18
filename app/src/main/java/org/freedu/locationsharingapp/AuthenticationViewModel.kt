@@ -28,7 +28,9 @@ class AuthenticationViewModel : ViewModel() {
                 }
             }
     }
-
+    fun getCurrentUserId(): String {
+        return firebaseAuth.currentUser?.uid ?: ""
+    }
     fun isLoggedIn(): Boolean {
         return firebaseAuth.currentUser != null
     }
